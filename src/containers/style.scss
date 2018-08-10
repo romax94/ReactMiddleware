@@ -1,0 +1,10 @@
+.app {
+  color: red;
+  display: flex;
+
+  &:before {
+    content: '';
+    width: 5px;
+    height: 5px;
+  }
+}

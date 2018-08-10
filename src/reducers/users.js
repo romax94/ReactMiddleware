@@ -3,7 +3,7 @@ let initialState = {
 };
 
 export const users = (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'TEST':
       return state;
     default:

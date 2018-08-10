@@ -1,20 +1,37 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import api from './services/api';
 import rootReducer from './reducers/index';
 import App from './containers/App';
+import Header from './components/Header/Header';
 
-const store = createStore(rootReducer, composeWithDevTools());
+const middlewares = [thunk];
+
+let middleware = applyMiddleware(...middlewares, api);
+
+// if (proccess.env.NODE_ENV === 'local') {
+//   middleware = compose(middleware, composeWithDevTools());
+// } else {
+//   middleware = compose(middleware);
+// }
+
+// const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeWithDevTools(middleware));
 const root = document.getElementById('root');
 
-ReactDOM.render(
+render(
   <Provider store={store}>
     <Router>
-      <Route path="/" component={App} />
+      <div className="wrapper">
+        <Header />
+        <Route exact path="/" component={App} />
+      </div>
     </Router>
   </Provider>,
   root
-)
+);
